@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "mytasks-client-side-solution",
+    "id": "d97d9681-25fc-4100-9185-5da039defbdc",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.17.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "mytasks description"
+      },
+      "longDescription": {
+        "default": "mytasks description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "mytasks Feature",
+        "description": "The feature that activates elements of the mytasks solution.",
+        "id": "21de78d6-e0f6-4d25-8cbe-2714d2649789",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/mytasks.sppkg"
+  }
+}
