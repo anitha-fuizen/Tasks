@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 
 import { spfi, SPFI, SPFx } from "@pnp/sp";
 import { LogLevel, PnPLogging } from "@pnp/logging";
@@ -6,7 +7,7 @@ import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import "@pnp/sp/batching";
 import { WebPartContext } from "@microsoft/sp-webpart-base";
-var _sp: SPFI = null;
+let _sp: SPFI = null;
 export const getSP = (context?:WebPartContext ): SPFI => {
     if (_sp === null && context != null) {
       //You must add the @pnp/logging package to include the PnPLogging behavior it is no longer a peer dependency

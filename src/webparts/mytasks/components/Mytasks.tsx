@@ -1,43 +1,34 @@
-
+/*eslint-disable*/
 import * as React from 'react'
 import { IMytasksProps } from './IMytasksProps'
 import "@pnp/sp/fields";
 import "@pnp/sp/lists"
-import { sp } from 'sp-pnp-js';
+
 import {
   DetailsList, DetailsListLayoutMode,
  
 } from "office-ui-fabric-react/lib/DetailsList";
+import { getSP } from './pnpConfig';
+import { SPFI } from '@pnp/sp';
+
 const Mytasks = (props: IMytasksProps) => {
-  // const [data,setData] = React.useState<any>()  
+  
   const [rowData, setRowData] = React.useState([])
   const [final,setFinal]=React.useState([])
   let columnArr = new Array();
   let filteredarr = new Array();
   let filteredobj: any
+  console.log(props.ListName);
+  
   const getdata = async () => {
-    try {
-
-      //const list=await _sp.web.lists.getByTitle(props.ListName).items();
-      // const list=sp.web.lists.getByTitle(props.ListName)
-      // const items=await list.items.getAll();
-      // console.log(items);
-
-      //  sp.web.lists.getByTitle(props.ListName).fields.filter("Hidden eq false").select("Title").get().then((result)=>{
-      //    const columns=result.map((column: { Title: any; })=>column.Title);
-      //    console.log(columns)
-      //  })
-
-      await sp.web.lists.getByTitle(props.ListName).items.get().then((view) => {
+    
+      
+      const sp:SPFI = getSP(props.context)
+    
+        let view = await sp.web.lists.getByTitle(props.ListName).items.select()()
         console.log(view);
 
         view.map((y: any) => { Object.keys(y).filter(x => x !== "odata.type" && x !== "odata.id" && x !== "odata.etag" && x !== "odata.editLink" && x !== "FileSystemObjectType" && x !== "ServerRedirectedEmbedUri" && x !== "ServerRedirectedEmbedUrl" && x !== "ContentTypeId" && x !== "ComplianceAssetId" && x !== "OData__ColorTag" && x !== "Modified" && x !== "Created" && x !== "AuthorId" && x !== "EditorId" && x !== "OData__UIVersionString" && x !== "Attachments" && x !== "GUID" && x !== "Id" && x !=="Title").map((x: any) => { console.log(x); columnArr.push(x) }) })
-
-        //view.map((y: any) => { Object.values(y).filter(x => x !== "odata.type" && x !== "odata.id" && x !== "odata.etag" && x !== "odata.editLink" && x !== "FileSystemObjectType" && x !== "ServerRedirectedEmbedUri" && x !== "ServerRedirectedEmbedUrl" && x !== "ContentTypeId" && x !== "ComplianceAssetId" && x !== "OData__ColorTag" && x !== "Modified" && x !== "Created" && x !== "AuthorId" && x !== "EditorId" && x !== "OData__UIVersionString" && x !== "Attachments" && x !== "GUID" && x !== "Id").map((x: any) => { console.log(x); columndataArr.push(x) }) })
-
-        // view.map((x:any)=>{columndataArr.push(x)})
-
-
         view.map((x: any,i:number) => {
          
           filteredobj = Object.assign({}, ...columnArr.map(key => ({ [key]: x[key] })))
@@ -47,50 +38,29 @@ const Mytasks = (props: IMytasksProps) => {
         })
         console.log(filteredobj);
         console.log(filteredarr);
-        // console.log(Object.keys(filteredobj))
+         console.log(Object.keys(filteredobj))
         
-        // const keyobj=Object.keys(filteredobj)
-        
+         const keyobj=Object.keys(filteredobj)
+         console.log(keyobj)        
         setRowData(filteredarr)
         
       
-        let _columns=new Array();
-        try{
-        // columnArr.map((x:any,i:number)=>{
-        //   _columns.push({key:"_column"+i,name:columnArr[i],fieldName:columnArr[i],minWidth: 100,
-        //   maxWidth: 100,
-        //   isResizable: true})
-          
-
-        //   })
+        const columns=new Array();
+     
+       
           Object.keys(filteredobj).map((x,i)=>{
-            _columns.push({key:"_column"+i,name:x,fieldName:x,minWidth:100,
+            columns.push({key:"_column"+i,name:x,fieldName:x,minWidth:100,
           maxWidth: 100,
           isResizable: true})
           
-          //return _columns;
+         
 
-        })}
-       
-        catch(error){
-        console.log(error)
-
-        }
-        setFinal(_columns)
-
-})
+        })
+      setFinal(columns)
 
 }
-    catch (error) {
-      console.log(error);
-    }
 
-}
-  
-  React.useEffect(() => {
-    getdata()
-  }, [])
-
+React.useEffect(()=>{getdata()},[])
 
   return (<>
     
@@ -103,11 +73,10 @@ const Mytasks = (props: IMytasksProps) => {
     items={rowData}
     setKey="set"
           layoutMode={DetailsListLayoutMode.justified}
-          //selection={selection}
-          selectionPreservedOnEmptyClick={true}
+         selectionPreservedOnEmptyClick={true}
    
     /> }
   </>)
 }
 
-export default Mytasks
+export default Mytasks;
